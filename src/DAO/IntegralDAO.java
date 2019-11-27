@@ -1,23 +1,22 @@
 package DAO;
 
-import shitilei.User;
+
+
+import shitilei.Integral;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-public class UserDAO {
-
-    //构造函数
-    public UserDAO(){
+public class IntegralDAO {
+    public IntegralDAO(){
         try{
             Class.forName("com.mysql.jdbc.Driver");
         }catch (ClassNotFoundException e){
             e.printStackTrace();
         }
     }
-
-    //创建连接
     public Connection getConnection() throws SQLException {
         return DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/itcast?characterEncoding=UTF-8", "root",
                 "admin");
@@ -25,7 +24,7 @@ public class UserDAO {
     public int getTotal() {
         int total = 0;
         try(Connection c=getConnection(); Statement s=c.createStatement();){
-            String sql="select count(*) from user";
+            String sql="select count(*) from taskform";
             ResultSet rs=s.executeQuery(sql);
             while (rs.next()){
                 total++;
@@ -37,21 +36,19 @@ public class UserDAO {
         return total;
     }
 
-    //添加数据
-    public void add(User user) {
+    public void add(Integral integral) {
 
-        String sql = "insert into user values(?,?,?,?)";
+        String sql = "insert into integral values(null,?,?,?)";
 
         try (Connection c = getConnection(); PreparedStatement ps = c.prepareStatement(sql);) {
-            ps.setString(1, user.getuAccount());
-            ps.setString(2, user.getuPwd());
-            ps.setInt(3 ,user.geteNo());
-            ps.setInt(4, user.getuGrage());
 
+            ps.setInt(1, integral.geteNo());
+            ps.setInt(2, integral.getiMouth());
+            ps.setFloat(3, integral.getiNumer());
             ps.execute();
 
-            /*
             ResultSet rs = ps.getGeneratedKeys();
+            /*
             if (rs.next()) {
                 int id = rs.getInt(1);
                 e1.seteID(id);
@@ -64,17 +61,14 @@ public class UserDAO {
         }
     }
 
-    //更新数据
-    public void update(User user) {
+    public void update(Integral integral) {
 
-        String sql = "update user set uaccount= ?, upassword = ? , uGrage = ? where eNo = ?";
+        String sql = "update integral set eNo= ?,iMouth = ? , iNumber = ?  where Iid = ?";
         try (Connection c = getConnection(); PreparedStatement ps = c.prepareStatement(sql);) {
-
-            ps.setString(1, user.getuAccount());
-
-            ps.setString(2, user.getuPwd());
-            ps.setInt(3,user.getuGrage());
-            ps.setInt(4, user.geteNo());
+            ps.setInt(1, integral.geteNo());
+            ps.setInt(2, integral.getiMouth());
+            ps.setFloat(3, integral.getiNumer());
+            ps.execute();
 
             ps.execute();
 
@@ -85,11 +79,10 @@ public class UserDAO {
 
     }
 
-    //删除数据
-    public void delete(int eNo) {
+    public void delete(int Iid) {
         try(Connection c=getConnection();Statement s=c.createStatement()){
 
-            String sql = "delete from user where eNo = " + eNo;
+            String sql = "delete from integral where tID = " + Iid;
             s.execute(sql);
         }catch (SQLException e){
             e.printStackTrace();
@@ -97,46 +90,43 @@ public class UserDAO {
 
     }
 
-    //select
-    public User get(String uAccount) {
-        User user = null;
-
+    public List<Integral> get(int eNo) {
+        Integral integral = null;
+        List<Integral> integrals=new ArrayList<>();
 
         try (Connection c=getConnection();Statement s=c.createStatement();){
-            String sql = "select * from user where uaccount = " + uAccount;
+            String sql = "select * from integral where id = " + eNo;
 
             ResultSet rs = s.executeQuery(sql);
 
             if (rs.next()) {
-                user = new User();
+                integral=new Integral();
+                int id=rs.getInt("Iid");
+                int iMouth=rs.getInt("iMouth");
+                float iNumer=rs.getFloat("iNumer");
 
-
-                String uPwd = rs.getString("upassword");
-                int uGrage = rs.getInt("uGrage");
-                int eNo =rs.getInt("eNo");
-
-                user.setuAccount(uAccount);
-                user.setuPwd(uPwd);
-                user.seteNo(eNo);
-                user.setuGrage(uGrage);
+                integral.setiID(id);
+                integral.seteNo(eNo);
+                integral.setiMouth(iMouth);
+                integral.setiNumer(iNumer);
+                integrals.add(integral);
             }
 
         } catch (SQLException e) {
 
             e.printStackTrace();
         }
-        return user;
+        return integrals;
     }
 
-    //select 全部
-    public List<User> list() {
+    public List<Integral> list() {
         return list(0, Short.MAX_VALUE);
     }
 
-    public List<User> list(int start, int count) {
-        List<User> users= new ArrayList<User>();
+    public List<Integral> list(int start, int count) {
+        List<Integral> ems= new ArrayList<Integral>();
 
-        String sql = "select * from user order by eNo desc limit ?,? ";
+        String sql = "select * from integral order by Iid desc limit ?,? ";
 
         try (Connection c = getConnection(); PreparedStatement ps = c.prepareStatement(sql);) {
 
@@ -146,34 +136,33 @@ public class UserDAO {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                User user=new User();
-                String uAccount=rs.getString("uaccount");
-                String uPwd=rs.getString("upassword");
+                Integral integral=new Integral();
+                int id=rs.getInt("Iid");
                 int eNo=rs.getInt("eNo");
-                int uGrage=rs.getInt("uGrage");
+                int iMouth=rs.getInt("iMouth");
+                float iNumer=rs.getFloat("iNumer");
 
-                user.setuAccount(uAccount);
-                user.setuPwd(uPwd);
-                user.seteNo(eNo);
-                user.setuGrage(uGrage);
-                users.add(user);
+                integral.setiID(id);
+                integral.seteNo(eNo);
+                integral.setiMouth(iMouth);
+                integral.setiNumer(iNumer);
+
+
+                ems.add(integral);
             }
         } catch (SQLException e) {
 
             e.printStackTrace();
         }
-        return users;
+        return ems;
     }
 
-    /*
     public static void main(String args[]){
-        List<User> users=new UserDAO().list();
-        for (User user:users){
-            System.out.println(user.geteNo());
+        List<Integral> integrals=new IntegralDAO().list();
+        for (Integral integral:integrals){
+            System.out.println(integral.getiNumer());
         }
 
     }
-
-     */
 
 }

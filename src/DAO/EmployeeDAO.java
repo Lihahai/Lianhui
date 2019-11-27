@@ -25,7 +25,7 @@ public class EmployeeDAO {
             String sql="select count(*) from employeeform";
             ResultSet rs=s.executeQuery(sql);
             while (rs.next()){
-                total=rs.getInt(1);
+                total++;
             }
         }catch (SQLException e){
             e.printStackTrace();
@@ -42,9 +42,9 @@ public class EmployeeDAO {
 
             ps.setInt(1, e1.geteNo());
             ps.setString(2, e1.geteName());
-            ps.setInt(3, e1.geteMouthIntegral());
-            ps.setInt(4, e1.geteSumIntegral());
-            ps.setInt(5, e1.geteExtraIntegral());
+            ps.setFloat(3, e1.geteMouthIntegral());
+            ps.setFloat(4, e1.geteSumIntegral());
+            ps.setFloat(5, e1.geteExtraIntegral());
 
             ps.execute();
 
@@ -66,9 +66,9 @@ public class EmployeeDAO {
 
             ps.setString(1, e1.geteName());
 
-            ps.setInt(2, e1.geteMouthIntegral());
-            ps.setInt(3, e1.geteSumIntegral());
-            ps.setInt(4, e1.geteExtraIntegral());
+            ps.setFloat(2, e1.geteMouthIntegral());
+            ps.setFloat(3, e1.geteSumIntegral());
+            ps.setFloat(4, e1.geteExtraIntegral());
             ps.setInt(5, e1.geteNo());
 
             ps.execute();
@@ -104,9 +104,9 @@ public class EmployeeDAO {
                 e1 = new Employee();
                 int eID = rs.getInt("eID");
                 String eName = rs.getString("eName");
-                int eMouthIntegral = rs.getInt("eMouthIntegral");
-                int eSumIntegral = rs.getInt("eSumIntegral");
-                int eExtraIntegral = rs.getInt("eExtraIntegral");
+                float eMouthIntegral = rs.getInt("eMouthIntegral");
+                float eSumIntegral = rs.getInt("eSumIntegral");
+                float eExtraIntegral = rs.getInt("eExtraIntegral");
 
                 e1.seteID(eID);
                 e1.seteNo(eNo);
@@ -144,9 +144,9 @@ public class EmployeeDAO {
                 int eID = rs.getInt("eID");
                 int eNo=rs.getInt("eNo");
                 String eName = rs.getString("eName");
-                int eMouthIntegral = rs.getInt("eMouthIntegral");
-                int eSumIntegral = rs.getInt("eSumIntegral");
-                int eExtraIntegral = rs.getInt("eExtraIntegral");
+                float eMouthIntegral = rs.getInt("eMouthIntegral");
+                float eSumIntegral = rs.getInt("eSumIntegral");
+                float eExtraIntegral = rs.getInt("eExtraIntegral");
 
                 e1.seteID(eID);
                 e1.seteNo(eNo);
@@ -172,6 +172,8 @@ public class EmployeeDAO {
 
     }
 
+
  */
+
 
 }

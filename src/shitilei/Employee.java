@@ -4,9 +4,9 @@ public class Employee {
     private int eID;
     private int eNo;
     private String eName;
-    private int eMouthIntegral;
-    private int eSumIntegral;
-    private int eExtraIntegral;
+    private float eMouthIntegral;
+    private float eSumIntegral;
+    private float eExtraIntegral;
 
     public int geteID() {
         return eID;
@@ -32,27 +32,27 @@ public class Employee {
         this.eName = eName;
     }
 
-    public int geteMouthIntegral() {
+    public float geteMouthIntegral() {
         return eMouthIntegral;
     }
 
-    public void seteMouthIntegral(int eMouthIntegral) {
+    public void seteMouthIntegral(float eMouthIntegral) {
         this.eMouthIntegral = eMouthIntegral;
     }
 
-    public int geteSumIntegral() {
+    public float geteSumIntegral() {
         return eSumIntegral;
     }
 
-    public void seteSumIntegral(int eSumIntegral) {
+    public void seteSumIntegral(float eSumIntegral) {
         this.eSumIntegral = eSumIntegral;
     }
 
-    public int geteExtraIntegral() {
+    public float geteExtraIntegral() {
         return eExtraIntegral;
     }
 
-    public void seteExtraIntegral(int eExtraIntegral) {
+    public void seteExtraIntegral(float eExtraIntegral) {
         this.eExtraIntegral = eExtraIntegral;
     }
 }
